@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Shortener.Models;
 
 namespace Shortener
@@ -26,9 +27,22 @@ namespace Shortener
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            /*MSSQL*/
+            /*services.AddDbContext<ApplicationDbContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("MySQLConnection"))
+                );*/
+
+            //MySql
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options
+                    .UseMySql(Configuration.GetConnectionString("MySQLConnection"))
+                    .UseLoggerFactory(LoggerFactory.Create(b => b
+                    .AddConsole()
+                    .AddFilter(level => level >= LogLevel.Information)))
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors()
                 );
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 

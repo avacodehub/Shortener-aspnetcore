@@ -136,7 +136,7 @@ namespace Shortener.Controllers
 
             if (tries >= 5)
             {
-                link = link = string.Format("{0}://{1}/{2}/{3}", Request.Scheme, Request.Host, "home/s", Generator.GetStringLong());
+                link = string.Format("{0}://{1}/{2}/{3}", Request.Scheme, Request.Host, "home/s", Generator.GetStringLong());
             }
 
             return link;
